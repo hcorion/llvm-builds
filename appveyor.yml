@@ -5,7 +5,7 @@ clone_depth: 3
 
 before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
-  - DownloadFile http://releases.llvm.org/5.0.0/llvm-5.0.0.src.tar.xz
+  - appveyor DownloadFile http://releases.llvm.org/5.0.0/llvm-5.0.0.src.tar.xz
   - 7z x llvm-5.0.0.src.tar.xz
   - 7z x llvm-5.0.0.src.tar
   - move llvm-5.0.0.src llvm
