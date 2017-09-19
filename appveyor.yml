@@ -24,14 +24,14 @@ after_build:
   - cd build
   - mkdir llvm
   - cd llvm
-  - xcopy "..\llvm\cmake" ".\" /E
-  - xcopy "..\llvm\include" ".\" /E
+  - xcopy "..\..\llvm\cmake" ".\" /E
+  - xcopy "..\..\llvm\include" ".\" /E
   - cd ..\
   - mkdir llvm_build
   - cd llvm_build
-  - xcopy "..\llvm_build\Release" ".\" /E
-  - xcopy  "..\llvm_build\include" ".\" /E
-  - xcopy  "..\llvm_build\lib" ".\" /E
+  - xcopy "..\..\llvm_build\Release" ".\" /E
+  - xcopy  "..\..\llvm_build\include" ".\" /E
+  - xcopy  "..\..\llvm_build\lib" ".\" /E
   - cd ..\
   - 7z a -r "llvmlibs.7z" *
   - move .\llvmlibs.7z ..\bin\
