@@ -34,7 +34,7 @@ after_build:
   - xcopy  "..\..\llvm_build\lib" ".\" /E
   - cd ..\
   - 7z a -r "llvmlibs.7z" *
-  - move .\llvmlibs.7z ..\bin\
+  - move .\llvmlibs.7z C:\rpcs3\bin\
 artifacts:
  - path: bin
    name: 'llvmlibs.7z'
