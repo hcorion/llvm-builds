@@ -10,7 +10,7 @@ before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
   - git clone --branch release_50 https://github.com/llvm-mirror/llvm
   - cd llvm\tools
-  - git clone --branch release_50 https://github.com/llvm-mirror/polly
+  - git clone --branch RELEASE_501 https://github.com/llvm-mirror/polly
   - cd ..\..\
   - mkdir llvm_build
   - cd llvm_build
