@@ -8,7 +8,7 @@ configuration:
 
 before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
-  - git clone https://github.com/llvm-mirror/llvm
+  - git clone --branch release_50 https://github.com/llvm-mirror/llvm
   - cd llvm\tools
   - git clone https://github.com/llvm-mirror/polly
   - cd ..\..\
