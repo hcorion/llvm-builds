@@ -5,7 +5,10 @@ clone_depth: 3
 
 configuration:
   - Release
-
+  - appveyor DownloadFile http://releases.llvm.org/6.0.0/llvm-6.0.0.src.tar.xz
+  - 7z x llvm-6.0.0.src.tar.xz
+  - 7z x llvm-6.0.0.src.tar
+  - move llvm-6.0.0.src llvm
 before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
   - git clone -b release_60 --depth=5 https://github.com/hcorion/llvm
