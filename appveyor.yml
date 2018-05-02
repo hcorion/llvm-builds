@@ -30,6 +30,7 @@ after_build:
   - cd ..\
   - xcopy "..\..\llvm\cmake" ".\cmake" /E
   - xcopy "..\..\llvm\include" ".\include" /E
+  - xcopy "..\..\llvm\tools\polly" ".\tools\polly" /E
   - cd ..\
   - mkdir llvm_build
   - cd llvm_build
