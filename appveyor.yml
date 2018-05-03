@@ -1,20 +1,23 @@
-os: Visual Studio 2015
+os: Visual Studio 2017
 platform: x64
 clone_folder: C:\rpcs3
 clone_depth: 3
 
 configuration:
   - Release
-
+  - appveyor DownloadFile http://releases.llvm.org/6.0.0/llvm-6.0.0.src.tar.xz
+  - 7z x llvm-6.0.0.src.tar.xz
+  - 7z x llvm-6.0.0.src.tar
+- move llvm-6.0.0.src llvm
 before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
-  - git clone --branch release_50 https://github.com/llvm-mirror/llvm
+  - git clone --branch release_60 https://github.com/llvm-mirror/llvm
   - cd llvm\tools
-  - git clone --branch svn-tags/RELEASE_501 https://github.com/llvm-mirror/polly
+  - git clone --branch svn-tags/RELEASE_600 https://github.com/llvm-mirror/polly
   - cd ..\..\
   - mkdir llvm_build
   - cd llvm_build
-  - cmake -G "Visual Studio 14 Win64" ../llvm -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_DEFAULT_TARGET_TRIPLE:STRING=x86_64-pc-win64 -DLLVM_HOST_TRIPLE:STRING=x86_64-pc-win64 -DCMAKE_BUILD_TYPE=Release -Thost=x64 -DLLVM_BUILD_RUNTIME=OFF -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DCMAKE_SYSTEM_VERSION=6.1 -DCMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=8.1
+  - cmake -G "Visual Studio 15 Win64" ../llvm -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_DEFAULT_TARGET_TRIPLE:STRING=x86_64-pc-win64 -DLLVM_HOST_TRIPLE:STRING=x86_64-pc-win64 -DCMAKE_BUILD_TYPE=Release -Thost=x64 -DLLVM_BUILD_RUNTIME=OFF -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DCMAKE_SYSTEM_VERSION=6.1 -DCMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=8.1
   - dir
 build_script:
   - cmake --build . --config Release -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
