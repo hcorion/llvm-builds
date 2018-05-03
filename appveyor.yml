@@ -34,4 +34,4 @@ after_build:
 artifacts:
  - path: bin
    name: 'llvmlibs.7z'
-   type: File
+type: File
