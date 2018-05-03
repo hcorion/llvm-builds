@@ -1,18 +1,22 @@
 os: Visual Studio 2017
 platform: x64
-clone_folder: C:\dabuild
+clone_folder: C:\rpcs3
 clone_depth: 3
+
+configuration:
+  - Release
 
 before_build:
   - ps: $env:Date="$(git show -s --date=short --format='%ad')"
-  - appveyor DownloadFile http://releases.llvm.org/6.0.0/llvm-6.0.0.src.tar.xz
-  - 7z x llvm-6.0.0.src.tar.xz
-  - 7z x llvm-6.0.0.src.tar
-  - move llvm-6.0.0.src llvm
+  - git clone https://github.com/llvm-mirror/llvm
+  - cd llvm\tools
+  - git clone https://github.com/llvm-mirror/polly
+  - cd ..\..\
   - mkdir llvm_build
   - cd llvm_build
-  - cmake -G "Visual Studio 15 Win64" ../llvm -DLLVM_TARGETS_TO_BUILD="X86" -DCMAKE_BUILD_TYPE=Release -DLLVM_PARALLEL_COMPILE_JOBS=2 -DLLVM_PARALLEL_LINK_JOBS=2 -Thost=x64
+  - cmake -G "Visual Studio 15 Win64" ../llvm -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_DEFAULT_TARGET_TRIPLE:STRING=x86_64-pc-win64 -DLLVM_HOST_TRIPLE:STRING=x86_64-pc-win64 -DCMAKE_BUILD_TYPE=Release -Thost=x64 -DLLVM_BUILD_RUNTIME=OFF -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DCMAKE_SYSTEM_VERSION=6.1 -DCMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=8.1
   - dir
+build_script:
   - cmake --build . --config Release -- /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 after_build:
   - cd ..\
@@ -20,17 +24,28 @@ after_build:
   - cd build
   - mkdir llvm
   - cd llvm
-  - xcopy "..\llvm\cmake" ".\" /E
-  - xcopy "..\llvm\include" ".\" /E
+  - mkdir cmake
+  - mkdir include
+  - mkdir tools
+  - cd tools
+  - mkdir polly
+  - cd ..\
+  - xcopy "..\..\llvm\cmake" ".\cmake" /E
+  - xcopy "..\..\llvm\include" ".\include" /E
+  - xcopy "..\..\llvm\tools\polly" ".\tools\polly" /E
   - cd ..\
   - mkdir llvm_build
   - cd llvm_build
-  - xcopy "..\llvm_build\Release" ".\" /E
-  - xcopy  "..\llvm_build\include" ".\" /E
-  - xcopy  "..\llvm_build\lib" ".\" /E
+  - mkdir Release
+  - mkdir include
+  - mkdir lib
+  - xcopy "..\..\llvm_build\Release" ".\Release" /E
+  - xcopy  "..\..\llvm_build\include" ".\include" /E
+  - xcopy  "..\..\llvm_build\lib" ".\lib" /E
   - cd ..\
   - 7z a -r "llvmlibs.7z" *
-  - move .\llvmlibs.7z ..\bin\
+  - mkdir C:\rpcs3\bin
+  - move .\llvmlibs.7z C:\rpcs3\bin\
 artifacts:
  - path: bin
    name: 'llvmlibs.7z'
