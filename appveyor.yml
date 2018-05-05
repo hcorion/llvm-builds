@@ -22,7 +22,7 @@ after_build:
   - cd llvm
   - xcopy "..\llvm\cmake" ".\" /E
   - xcopy "..\llvm\include" ".\" /E
-  - xcopy "..\..\llvm\tools\polly" ".\tools\polly" /E
+  - xcopy "..\..\llvm\tools\polly" ".\tools\polly"/E
   - cd ..\
   - mkdir llvm_build
   - cd llvm_build
